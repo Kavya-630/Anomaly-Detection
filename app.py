@@ -17,7 +17,7 @@ st.set_page_config(
 # -----------------------------
 @st.cache_resource
 def load_model():
-    return joblib.load("xgb_model.pkl")
+    return joblib.load("final_xgb_model.pkl")
 
 model = load_model()
 
