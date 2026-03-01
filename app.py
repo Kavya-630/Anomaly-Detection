@@ -89,7 +89,7 @@ if st.button("🔍 Predict Anomaly"):
     # Predict probability
     probability = model.predict_proba(input_data)[0][1]
 
-    threshold = 0.70
+    threshold = 0.50
     prediction = 1 if probability > threshold else 0
 
     st.markdown("---")
