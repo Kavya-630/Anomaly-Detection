@@ -75,7 +75,7 @@ These chemical properties influence rolling behavior, deformation characteristic
 
 ---
 
-## Target Variable
+## class Variable
 
 - `class` → Type: `int64`
 
