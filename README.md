@@ -200,7 +200,6 @@ The dashboard has four tabs:
 rollguard/
 │
 ├── app.py                          ← Streamlit dashboard (main entry point)
-├── save_models.py                  ← Export trained models from Colab notebook
 ├── requirements.txt                ← Python dependencies
 ├── README.md                       ← This file
 │
@@ -211,8 +210,7 @@ rollguard/
 │   ├── scaler.pkl                  ← StandardScaler for logistic regression
 │   └── model_columns.pkl           ← Ordered list of 55 training feature names
 │
-├── notebooks/
-│   └── Anomaly_Detection.ipynb     ← Full research notebook (EDA → deployment)
+├── Anomaly_Detection.ipynb     ← Full research notebook (EDA → deployment)
 │
 └── .streamlit/
     └── config.toml                 ← App theme (ash/warm palette)
@@ -230,7 +228,7 @@ rollguard/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/rollguard.git
+git clone [https://github.com/YOUR_USERNAME/rollguard.git](https://github.com/Kavya-630/Anomaly-Detection)
 cd rollguard
 
 # 2. (Optional) Create a virtual environment
