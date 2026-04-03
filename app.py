@@ -322,7 +322,7 @@ st.markdown("""
         <div class="logo">⚙ ROLLGUARD</div>
         <div class="subtitle">Rolling Mill Anomaly Detection System</div>
     </div>
-    <div class="badge">v1.0 · LIVE</div>
+    <div class="badge">v1.0</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -804,9 +804,9 @@ with tab3:
             )
             st.plotly_chart(fig_sample, use_container_width=True)
         except Exception as e:
-            st.markdown(f"<div class='info-box'>Live SHAP requires model files. Error: {e}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='info-box'>SHAP requires model files to be loaded. Error: {e}</div>", unsafe_allow_html=True)
     else:
-        st.markdown("<div class='info-box'>Load model files to enable live per-sample SHAP explanations.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='info-box'>Load model files to enable per-sample SHAP explanations.</div>", unsafe_allow_html=True)
 
         # Show a demo waterfall
         demo_feats = ["dh_entry_std", "velocity_mdr", "h_exit_ref", "tension_en", "velocity_ex_std"]
