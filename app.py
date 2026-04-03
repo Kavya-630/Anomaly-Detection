@@ -123,21 +123,52 @@ html, body, [class*="css"] {
     background: #52B788 !important;
 }
 
-/* ── Always show the collapse/expand toggle arrow ── */
+/* ── Collapsed control — force visible and styled ── */
 [data-testid="collapsedControl"] {
     display: flex !important;
     visibility: visible !important;
-    background: #1C3A2A !important;
-    border-right: 2px solid #2D4A2D !important;
-    color: #D5EDD5 !important;
-    z-index: 999 !important;
+    opacity: 1 !important;
+    background: #2D6A4F !important;
+    border-right: 3px solid #40916C !important;
+    color: #FAFAF7 !important;
+    z-index: 9999 !important;
+    width: 2rem !important;
+    min-width: 2rem !important;
 }
 [data-testid="collapsedControl"]:hover {
-    background: #2D6A4F !important;
+    background: #40916C !important;
 }
-[data-testid="collapsedControl"] svg {
-    fill: #D5EDD5 !important;
-    color: #D5EDD5 !important;
+[data-testid="collapsedControl"] svg,
+[data-testid="collapsedControl"] span {
+    fill: #FAFAF7 !important;
+    color: #FAFAF7 !important;
+    stroke: #FAFAF7 !important;
+}
+
+/* ── Custom always-visible open button (injected via JS below) ── */
+#sidebar-open-btn {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 99999;
+    background: #2D6A4F;
+    color: #FAFAF7;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    width: 28px;
+    height: 56px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 2px 0 8px rgba(28,58,42,0.3);
+    transition: background 0.2s, width 0.2s;
+}
+#sidebar-open-btn:hover {
+    background: #40916C;
+    width: 34px;
 }
 
 /* Sidebar text — light on dark bg */
@@ -370,6 +401,52 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# ─── Sidebar open button (JS injection) ──────────────────────────────────────
+st.markdown("""
+<button id="sidebar-open-btn" title="Open Control Panel" onclick="openSidebar()">&#x276F;</button>
+<script>
+(function() {
+    function getSidebarToggle() {
+        return document.querySelector('[data-testid="collapsedControl"] button') ||
+               document.querySelector('[data-testid="collapsedControl"]');
+    }
+
+    function isSidebarCollapsed() {
+        var sidebar = document.querySelector('[data-testid="stSidebar"]');
+        if (!sidebar) return false;
+        // Streamlit adds aria-expanded="false" when collapsed
+        var toggle = document.querySelector('[data-testid="collapsedControl"]');
+        if (toggle) {
+            var btn = toggle.querySelector('button');
+            if (btn) return btn.getAttribute('aria-expanded') === 'false';
+        }
+        // Fallback: check sidebar width
+        return sidebar.getBoundingClientRect().width < 50;
+    }
+
+    window.openSidebar = function() {
+        var toggle = getSidebarToggle();
+        if (toggle) toggle.click();
+        document.getElementById('sidebar-open-btn').style.display = 'none';
+    };
+
+    function checkSidebar() {
+        var btn = document.getElementById('sidebar-open-btn');
+        if (!btn) return;
+        if (isSidebarCollapsed()) {
+            btn.style.display = 'flex';
+        } else {
+            btn.style.display = 'none';
+        }
+    }
+
+    // Poll every 400ms to detect sidebar state changes
+    setInterval(checkSidebar, 400);
+    // Also run immediately after DOM settles
+    setTimeout(checkSidebar, 800);
+})();
+</script>
+""", unsafe_allow_html=True)
 
 # ─── Load models ─────────────────────────────────────────────────────────────
 @st.cache_resource
