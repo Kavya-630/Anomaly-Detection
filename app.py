@@ -123,26 +123,20 @@ html, body, [class*="css"] {
     background: #52B788 !important;
 }
 
-/* ── Panel toggle button (top-left, styled green) ── */
-.panel-toggle-btn > button {
-    background: #2D6A4F !important;
-    color: #FAFAF7 !important;
-    border: 2px solid #40916C !important;
-    border-radius: 8px !important;
-    font-size: 1.1rem !important;
-    width: 2.4rem !important;
-    height: 2.4rem !important;
-    padding: 0 !important;
-    min-height: unset !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    transition: background 0.2s !important;
+/* ── Style Streamlit's own sidebar collapse/expand button ── */
+[data-testid="collapsedControl"] {
+    background-color: #2D6A4F !important;
+    width: 2rem !important;
 }
-.panel-toggle-btn > button:hover {
-    background: #40916C !important;
-    border-color: #52B788 !important;
+[data-testid="collapsedControl"]:hover {
+    background-color: #40916C !important;
+}
+[data-testid="collapsedControl"] svg {
+    fill: #FAFAF7 !important;
+}
+/* The button Streamlit renders when sidebar IS expanded (the > arrow inside it) */
+button[data-testid="baseButton-headerNoPadding"] {
+    color: #FAFAF7 !important;
 }
 
 /* Sidebar text — light on dark bg */
@@ -364,20 +358,8 @@ html, body, [class*="css"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ─── Session state for sidebar visibility ────────────────────────────────────
-if "show_sidebar" not in st.session_state:
-    st.session_state.show_sidebar = True
-
 # ─── Header ─────────────────────────────────────────────────────────────────
-hcol1, hcol2 = st.columns([0.04, 0.96])
-with hcol1:
-    st.markdown("<div class='panel-toggle-btn'>", unsafe_allow_html=True)
-    if st.button("☰", key="toggle_sidebar", help="Open / close the control panel"):
-        st.session_state.show_sidebar = not st.session_state.show_sidebar
-        st.rerun()
-    st.markdown("</div>", unsafe_allow_html=True)
-with hcol2:
-    st.markdown("""
+st.markdown("""
 <div class="app-header">
     <div>
         <div class="logo">⚙ ROLLGUARD</div>
@@ -452,43 +434,36 @@ FEATURE_GROUPS = {
 }
 
 # ─── Sidebar ─────────────────────────────────────────────────────────────────
-if st.session_state.show_sidebar:
-    with st.sidebar:
-        st.markdown("<div style='padding:1rem 0 0.5rem;font-family:var(--sans);font-size:1.2rem;font-weight:700;color:#D5EDD5;letter-spacing:0.06em;'>CONTROL PANEL</div>", unsafe_allow_html=True)
+with st.sidebar:
+    st.markdown("<div style='padding:1rem 0 0.5rem;font-family:var(--display);font-size:1.3rem;font-weight:700;font-style:italic;color:#D5EDD5;'>Control Panel</div>", unsafe_allow_html=True)
 
-        st.markdown("<div class='sidebar-section'>Model Selection</div>", unsafe_allow_html=True)
-        selected_model = st.selectbox(
-            "Active Model",
-            ["XGBoost", "Isolation Forest", "Hybrid (IF + XGBoost)"],
-            index=0,
-            label_visibility="collapsed",
-        )
+    st.markdown("<div class='sidebar-section'>Model Selection</div>", unsafe_allow_html=True)
+    selected_model = st.selectbox(
+        "Active Model",
+        ["XGBoost", "Isolation Forest", "Hybrid (IF + XGBoost)"],
+        index=0,
+        label_visibility="collapsed",
+    )
 
-        st.markdown("<div class='sidebar-section'>Process Operational</div>", unsafe_allow_html=True)
-        inputs = {}
-        for feat, (label, lo, hi, default) in FEATURE_GROUPS["⚙️ Process Operational"].items():
-            inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.01, key=feat)
+    st.markdown("<div class='sidebar-section'>Process Operational</div>", unsafe_allow_html=True)
+    inputs = {}
+    for feat, (label, lo, hi, default) in FEATURE_GROUPS["⚙️ Process Operational"].items():
+        inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.01, key=feat)
 
-        st.markdown("<div class='sidebar-section'>Thickness Reference</div>", unsafe_allow_html=True)
-        for feat, (label, lo, hi, default) in FEATURE_GROUPS["📐 Thickness Reference"].items():
-            inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.01, key=feat)
+    st.markdown("<div class='sidebar-section'>Thickness Reference</div>", unsafe_allow_html=True)
+    for feat, (label, lo, hi, default) in FEATURE_GROUPS["📐 Thickness Reference"].items():
+        inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.01, key=feat)
 
-        with st.expander("📊 Statistical Features"):
-            for feat, (label, lo, hi, default) in FEATURE_GROUPS["📊 Statistical Features"].items():
-                inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.001, key=feat)
+    with st.expander("📊 Statistical Features"):
+        for feat, (label, lo, hi, default) in FEATURE_GROUPS["📊 Statistical Features"].items():
+            inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.001, key=feat)
 
-        with st.expander("🧪 Chemical Composition"):
-            for feat, (label, lo, hi, default) in FEATURE_GROUPS["🧪 Chemical Composition (%)"].items():
-                inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.001, key=feat)
+    with st.expander("🧪 Chemical Composition"):
+        for feat, (label, lo, hi, default) in FEATURE_GROUPS["🧪 Chemical Composition (%)"].items():
+            inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.001, key=feat)
 
-        st.markdown("<hr style='border-color:#2D4A2D;margin:1rem 0;'>", unsafe_allow_html=True)
-        run_btn = st.button("▶  RUN PREDICTION", use_container_width=True)
-
-else:
-    # Sidebar hidden — provide default values so the rest of the app doesn't crash
-    selected_model = "XGBoost"
-    inputs = {feat: default for group in FEATURE_GROUPS.values() for feat, (_, lo, hi, default) in group.items()}
-    run_btn = False
+    st.markdown("<hr style='border-color:#2D4A2D;margin:1rem 0;'>", unsafe_allow_html=True)
+    run_btn = st.button("▶  RUN PREDICTION", use_container_width=True)
 
 
 # ─── Helper: build full input vector ────────────────────────────────────────
