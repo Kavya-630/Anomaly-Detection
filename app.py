@@ -123,52 +123,26 @@ html, body, [class*="css"] {
     background: #52B788 !important;
 }
 
-/* ── Collapsed control — force visible and styled ── */
-[data-testid="collapsedControl"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+/* ── Panel toggle button (top-left, styled green) ── */
+.panel-toggle-btn > button {
     background: #2D6A4F !important;
-    border-right: 3px solid #40916C !important;
     color: #FAFAF7 !important;
-    z-index: 9999 !important;
-    width: 2rem !important;
-    min-width: 2rem !important;
+    border: 2px solid #40916C !important;
+    border-radius: 8px !important;
+    font-size: 1.1rem !important;
+    width: 2.4rem !important;
+    height: 2.4rem !important;
+    padding: 0 !important;
+    min-height: unset !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: background 0.2s !important;
 }
-[data-testid="collapsedControl"]:hover {
+.panel-toggle-btn > button:hover {
     background: #40916C !important;
-}
-[data-testid="collapsedControl"] svg,
-[data-testid="collapsedControl"] span {
-    fill: #FAFAF7 !important;
-    color: #FAFAF7 !important;
-    stroke: #FAFAF7 !important;
-}
-
-/* ── Custom always-visible open button (injected via JS below) ── */
-#sidebar-open-btn {
-    position: fixed;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    z-index: 99999;
-    background: #2D6A4F;
-    color: #FAFAF7;
-    border: none;
-    border-radius: 0 8px 8px 0;
-    width: 28px;
-    height: 56px;
-    cursor: pointer;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    box-shadow: 2px 0 8px rgba(28,58,42,0.3);
-    transition: background 0.2s, width 0.2s;
-}
-#sidebar-open-btn:hover {
-    background: #40916C;
-    width: 34px;
+    border-color: #52B788 !important;
 }
 
 /* Sidebar text — light on dark bg */
@@ -390,8 +364,20 @@ html, body, [class*="css"] {
 </style>
 """, unsafe_allow_html=True)
 
+# ─── Session state for sidebar visibility ────────────────────────────────────
+if "show_sidebar" not in st.session_state:
+    st.session_state.show_sidebar = True
+
 # ─── Header ─────────────────────────────────────────────────────────────────
-st.markdown("""
+hcol1, hcol2 = st.columns([0.04, 0.96])
+with hcol1:
+    st.markdown("<div class='panel-toggle-btn'>", unsafe_allow_html=True)
+    if st.button("☰", key="toggle_sidebar", help="Open / close the control panel"):
+        st.session_state.show_sidebar = not st.session_state.show_sidebar
+        st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
+with hcol2:
+    st.markdown("""
 <div class="app-header">
     <div>
         <div class="logo">⚙ ROLLGUARD</div>
@@ -399,53 +385,6 @@ st.markdown("""
     </div>
     <div class="badge">v1.0</div>
 </div>
-""", unsafe_allow_html=True)
-
-# ─── Sidebar open button (JS injection) ──────────────────────────────────────
-st.markdown("""
-<button id="sidebar-open-btn" title="Open Control Panel" onclick="openSidebar()">&#x276F;</button>
-<script>
-(function() {
-    function getSidebarToggle() {
-        return document.querySelector('[data-testid="collapsedControl"] button') ||
-               document.querySelector('[data-testid="collapsedControl"]');
-    }
-
-    function isSidebarCollapsed() {
-        var sidebar = document.querySelector('[data-testid="stSidebar"]');
-        if (!sidebar) return false;
-        // Streamlit adds aria-expanded="false" when collapsed
-        var toggle = document.querySelector('[data-testid="collapsedControl"]');
-        if (toggle) {
-            var btn = toggle.querySelector('button');
-            if (btn) return btn.getAttribute('aria-expanded') === 'false';
-        }
-        // Fallback: check sidebar width
-        return sidebar.getBoundingClientRect().width < 50;
-    }
-
-    window.openSidebar = function() {
-        var toggle = getSidebarToggle();
-        if (toggle) toggle.click();
-        document.getElementById('sidebar-open-btn').style.display = 'none';
-    };
-
-    function checkSidebar() {
-        var btn = document.getElementById('sidebar-open-btn');
-        if (!btn) return;
-        if (isSidebarCollapsed()) {
-            btn.style.display = 'flex';
-        } else {
-            btn.style.display = 'none';
-        }
-    }
-
-    // Poll every 400ms to detect sidebar state changes
-    setInterval(checkSidebar, 400);
-    // Also run immediately after DOM settles
-    setTimeout(checkSidebar, 800);
-})();
-</script>
 """, unsafe_allow_html=True)
 
 # ─── Load models ─────────────────────────────────────────────────────────────
@@ -513,36 +452,43 @@ FEATURE_GROUPS = {
 }
 
 # ─── Sidebar ─────────────────────────────────────────────────────────────────
-with st.sidebar:
-    st.markdown("<div style='padding:1rem 0 0.5rem;font-family:var(--sans);font-size:1.2rem;font-weight:700;color:#D5EDD5;letter-spacing:0.06em;'>CONTROL PANEL</div>", unsafe_allow_html=True)
+if st.session_state.show_sidebar:
+    with st.sidebar:
+        st.markdown("<div style='padding:1rem 0 0.5rem;font-family:var(--sans);font-size:1.2rem;font-weight:700;color:#D5EDD5;letter-spacing:0.06em;'>CONTROL PANEL</div>", unsafe_allow_html=True)
 
-    st.markdown("<div class='sidebar-section'>Model Selection</div>", unsafe_allow_html=True)
-    selected_model = st.selectbox(
-        "Active Model",
-        ["XGBoost", "Isolation Forest", "Hybrid (IF + XGBoost)"],
-        index=0,
-        label_visibility="collapsed",
-    )
+        st.markdown("<div class='sidebar-section'>Model Selection</div>", unsafe_allow_html=True)
+        selected_model = st.selectbox(
+            "Active Model",
+            ["XGBoost", "Isolation Forest", "Hybrid (IF + XGBoost)"],
+            index=0,
+            label_visibility="collapsed",
+        )
 
-    st.markdown("<div class='sidebar-section'>Process Operational</div>", unsafe_allow_html=True)
-    inputs = {}
-    for feat, (label, lo, hi, default) in FEATURE_GROUPS["⚙️ Process Operational"].items():
-        inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.01, key=feat)
+        st.markdown("<div class='sidebar-section'>Process Operational</div>", unsafe_allow_html=True)
+        inputs = {}
+        for feat, (label, lo, hi, default) in FEATURE_GROUPS["⚙️ Process Operational"].items():
+            inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.01, key=feat)
 
-    st.markdown("<div class='sidebar-section'>Thickness Reference</div>", unsafe_allow_html=True)
-    for feat, (label, lo, hi, default) in FEATURE_GROUPS["📐 Thickness Reference"].items():
-        inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.01, key=feat)
+        st.markdown("<div class='sidebar-section'>Thickness Reference</div>", unsafe_allow_html=True)
+        for feat, (label, lo, hi, default) in FEATURE_GROUPS["📐 Thickness Reference"].items():
+            inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.01, key=feat)
 
-    with st.expander("📊 Statistical Features"):
-        for feat, (label, lo, hi, default) in FEATURE_GROUPS["📊 Statistical Features"].items():
-            inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.001, key=feat)
+        with st.expander("📊 Statistical Features"):
+            for feat, (label, lo, hi, default) in FEATURE_GROUPS["📊 Statistical Features"].items():
+                inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.001, key=feat)
 
-    with st.expander("🧪 Chemical Composition"):
-        for feat, (label, lo, hi, default) in FEATURE_GROUPS["🧪 Chemical Composition (%)"].items():
-            inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.001, key=feat)
+        with st.expander("🧪 Chemical Composition"):
+            for feat, (label, lo, hi, default) in FEATURE_GROUPS["🧪 Chemical Composition (%)"].items():
+                inputs[feat] = st.number_input(label, min_value=float(lo), max_value=float(hi), value=float(default), step=0.001, key=feat)
 
-    st.markdown("<hr style='border-color:#3A3632;margin:1rem 0;'>", unsafe_allow_html=True)
-    run_btn = st.button("▶  RUN PREDICTION", use_container_width=True)
+        st.markdown("<hr style='border-color:#2D4A2D;margin:1rem 0;'>", unsafe_allow_html=True)
+        run_btn = st.button("▶  RUN PREDICTION", use_container_width=True)
+
+else:
+    # Sidebar hidden — provide default values so the rest of the app doesn't crash
+    selected_model = "XGBoost"
+    inputs = {feat: default for group in FEATURE_GROUPS.values() for feat, (_, lo, hi, default) in group.items()}
+    run_btn = False
 
 
 # ─── Helper: build full input vector ────────────────────────────────────────
