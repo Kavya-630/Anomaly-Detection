@@ -18,26 +18,27 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ─── Custom CSS — warm steel / ash palette ──────────────────────────────────
+# ─── Custom CSS — forest green + cream palette ──────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 /* ── Root palette ── */
 :root {
-    --bg:        #F0EDE8;
-    --surface:   #E8E4DE;
+    --bg:        #FAFAF7;
+    --surface:   #EEF2EE;
     --card:      #FFFFFF;
-    --border:    #D0CBC2;
-    --accent:    #C0390F;
-    --accent2:   #1A6B5A;
-    --text:      #1C1915;
-    --muted:     #7A736A;
-    --ok:        #1A6B5A;
-    --warn:      #C0390F;
-    --mono:      'DM Mono', monospace;
-    --sans:      'Barlow', sans-serif;
-    --cond:      'Barlow Condensed', sans-serif;
+    --border:    #C8D8C0;
+    --accent:    #2D6A4F;
+    --accent2:   #40916C;
+    --text:      #1C3A2A;
+    --muted:     #6B8C6B;
+    --ok:        #2D6A4F;
+    --warn:      #B91C1C;
+    --neu:       #B45309;
+    --mono:      'JetBrains Mono', monospace;
+    --sans:      'DM Sans', sans-serif;
+    --display:   'Fraunces', serif;
 }
 
 /* ── Global resets ── */
@@ -53,8 +54,8 @@ html, body, [class*="css"] {
 
 /* ── App header ── */
 .app-header {
-    background: var(--text);
-    color: #F0EDE8;
+    background: #1C3A2A;
+    color: #D5EDD5;
     padding: 1.4rem 2rem 1.2rem;
     margin: -1rem -1rem 2rem -1rem;
     display: flex;
@@ -63,18 +64,19 @@ html, body, [class*="css"] {
     border-bottom: 3px solid var(--accent);
 }
 .app-header .logo {
-    font-family: var(--cond);
+    font-family: var(--display);
     font-size: 2rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
-    color: #F0EDE8;
+    font-style: italic;
+    letter-spacing: 0.01em;
+    color: #D5EDD5;
 }
 .app-header .subtitle {
     font-size: 0.8rem;
     font-weight: 300;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #A09890;
+    color: #A8C5A8;
     margin-top: 2px;
 }
 .app-header .badge {
@@ -90,23 +92,69 @@ html, body, [class*="css"] {
 
 /* ── Sidebar ── */
 [data-testid="stSidebar"] {
-    background: var(--text) !important;
-    border-right: 2px solid #2E2B28;
+    background: #1C3A2A !important;
+    border-right: 2px solid #2D4A2D;
 }
-[data-testid="stSidebar"] * { color: #D8D3CC !important; }
+
+/* Sidebar text — light on dark bg */
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] div { color: #D5EDD5 !important; }
+
+/* Input boxes — white bg, dark text so numbers are visible */
+[data-testid="stSidebar"] input[type="number"],
+[data-testid="stSidebar"] .stNumberInput input {
+    background: #FAFAF7 !important;
+    color: #1C3A2A !important;
+    border: 1px solid #4D7A5A !important;
+    border-radius: 6px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+}
+
+/* Selectbox — white bg, dark text */
+[data-testid="stSidebar"] .stSelectbox > div > div {
+    background: #FAFAF7 !important;
+    color: #1C3A2A !important;
+    border: 1px solid #4D7A5A !important;
+    border-radius: 6px !important;
+}
+[data-testid="stSidebar"] .stSelectbox > div > div > div {
+    color: #1C3A2A !important;
+}
+
+/* +/- stepper buttons on number inputs */
+[data-testid="stSidebar"] .stNumberInput button {
+    background: #2D6A4F !important;
+    color: #FAFAF7 !important;
+    border: 1px solid #4D7A5A !important;
+}
+[data-testid="stSidebar"] .stNumberInput button:hover {
+    background: #40916C !important;
+}
+
+/* Section labels */
 [data-testid="stSidebar"] .stSelectbox label,
 [data-testid="stSidebar"] .stNumberInput label,
-[data-testid="stSidebar"] .stSlider label { color: #A09890 !important; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+[data-testid="stSidebar"] .stSlider label {
+    color: #A8C5A8 !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+}
+
 [data-testid="stSidebar"] [data-testid="stVerticalBlock"] > div:first-child { padding-top: 0.5rem; }
 .sidebar-section {
-    font-family: var(--cond);
+    font-family: var(--sans);
     font-size: 0.65rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--accent) !important;
     margin: 1.2rem 0 0.4rem;
     padding-bottom: 4px;
-    border-bottom: 1px solid #3A3632;
+    border-bottom: 1px solid #2D4A2D;
 }
 
 /* ── Metric cards ── */
@@ -121,7 +169,7 @@ html, body, [class*="css"] {
 }
 .metric-card.ok  { border-top-color: var(--ok);   }
 .metric-card.bad { border-top-color: var(--warn);  }
-.metric-card.neu { border-top-color: #8A6A3A;      }
+.metric-card.neu { border-top-color: var(--neu);     }
 .metric-label {
     font-family: var(--mono);
     font-size: 0.65rem;
@@ -131,9 +179,9 @@ html, body, [class*="css"] {
     margin-bottom: 4px;
 }
 .metric-value {
-    font-family: var(--cond);
-    font-size: 2rem;
-    font-weight: 700;
+    font-family: var(--mono);
+    font-size: 1.8rem;
+    font-weight: 500;
     color: var(--text);
     line-height: 1;
 }
@@ -145,41 +193,41 @@ html, body, [class*="css"] {
 
 /* ── Result banner ── */
 .result-normal {
-    background: #EBF5F2;
-    border: 1px solid #A8D5C8;
+    background: #D8F0E4;
+    border: 1px solid #B0D8C0;
     border-left: 5px solid var(--ok);
     padding: 1.2rem 1.5rem;
     border-radius: 2px;
     margin: 1rem 0;
 }
 .result-anomaly {
-    background: #FDF0EC;
-    border: 1px solid #F2B8A8;
+    background: #FEE2E2;
+    border: 1px solid #FCA5A5;
     border-left: 5px solid var(--warn);
     padding: 1.2rem 1.5rem;
     border-radius: 2px;
     margin: 1rem 0;
 }
 .result-title {
-    font-family: var(--cond);
+    font-family: var(--display);
     font-size: 1.6rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    font-style: italic;
 }
 .result-body { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
 
 /* ── Risk pill ── */
-.risk-low    { background:#EBF5F2; color:#1A6B5A; padding:3px 12px; border-radius:20px; font-family:var(--mono); font-size:0.75rem; font-weight:500; }
-.risk-medium { background:#FFF8E8; color:#8A6A00; padding:3px 12px; border-radius:20px; font-family:var(--mono); font-size:0.75rem; font-weight:500; }
-.risk-high   { background:#FDF0EC; color:#C0390F; padding:3px 12px; border-radius:20px; font-family:var(--mono); font-size:0.75rem; font-weight:500; }
+.risk-low    { background:#D8F0E4; color:#1B5E38; padding:3px 12px; border-radius:20px; font-family:var(--mono); font-size:0.75rem; font-weight:500; }
+.risk-medium { background:#FEF3C7; color:#92400E; padding:3px 12px; border-radius:20px; font-family:var(--mono); font-size:0.75rem; font-weight:500; }
+.risk-high   { background:#FEE2E2; color:#991B1B; padding:3px 12px; border-radius:20px; font-family:var(--mono); font-size:0.75rem; font-weight:500; }
 
 /* ── Section title ── */
 .section-title {
-    font-family: var(--cond);
-    font-size: 1.1rem;
+    font-family: var(--display);
+    font-size: 1.2rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-style: italic;
+    letter-spacing: 0.01em;
     color: var(--text);
     border-bottom: 2px solid var(--border);
     padding-bottom: 6px;
@@ -200,17 +248,17 @@ html, body, [class*="css"] {
     background: var(--accent) !important;
     color: #fff !important;
     border: none !important;
-    font-family: var(--cond) !important;
-    font-size: 1rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.08em !important;
+    font-family: var(--sans) !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
     text-transform: uppercase !important;
     padding: 0.6rem 2rem !important;
-    border-radius: 2px !important;
+    border-radius: 6px !important;
     width: 100% !important;
     transition: background 0.2s !important;
 }
-.stButton > button:hover { background: #A0300C !important; }
+.stButton > button:hover { background: #1B4D38 !important; }
 
 /* ── Tabs ── */
 .stTabs [data-baseweb="tab-list"] {
@@ -219,9 +267,9 @@ html, body, [class*="css"] {
     gap: 0 !important;
 }
 .stTabs [data-baseweb="tab"] {
-    font-family: var(--cond) !important;
+    font-family: var(--sans) !important;
     font-weight: 600 !important;
-    letter-spacing: 0.06em !important;
+    letter-spacing: 0.04em !important;
     text-transform: uppercase !important;
     font-size: 0.82rem !important;
     color: var(--muted) !important;
@@ -237,7 +285,7 @@ html, body, [class*="css"] {
 
 /* ── Expander ── */
 .streamlit-expanderHeader {
-    font-family: var(--cond) !important;
+    font-family: var(--sans) !important;
     font-weight: 600 !important;
     letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
@@ -257,7 +305,7 @@ html, body, [class*="css"] {
 .info-box {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-left: 4px solid #8A6A3A;
+    border-left: 4px solid var(--accent2);
     padding: 0.8rem 1rem;
     border-radius: 2px;
     font-size: 0.82rem;
@@ -345,7 +393,7 @@ FEATURE_GROUPS = {
 
 # ─── Sidebar ─────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("<div style='padding:1rem 0 0.5rem;font-family:var(--cond);font-size:1.2rem;font-weight:700;color:#F0EDE8;letter-spacing:0.06em;'>CONTROL PANEL</div>", unsafe_allow_html=True)
+    st.markdown("<div style='padding:1rem 0 0.5rem;font-family:var(--sans);font-size:1.2rem;font-weight:700;color:#D5EDD5;letter-spacing:0.06em;'>CONTROL PANEL</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='sidebar-section'>Model Selection</div>", unsafe_allow_html=True)
     selected_model = st.selectbox(
@@ -504,20 +552,20 @@ with tab1:
         fig_gauge = go.Figure(go.Indicator(
             mode="gauge+number",
             value=round(gauge_val * 100, 1),
-            number={"suffix": "%", "font": {"size": 36, "color": "#1C1915", "family": "Barlow Condensed"}},
+            number={"suffix": "%", "font": {"size": 36, "color": "#1C3A2A", "family": "DM Sans"}},
             gauge={
-                "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#7A736A",
-                         "tickfont": {"family": "DM Mono", "size": 10, "color": "#7A736A"}},
-                "bar": {"color": "#C0390F" if gauge_val > 0.3 else "#1A6B5A", "thickness": 0.25},
-                "bgcolor": "#F0EDE8",
+                "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#6B8C6B",
+                         "tickfont": {"family": "JetBrains Mono", "size": 10, "color": "#6B8C6B"}},
+                "bar": {"color": "#B91C1C" if gauge_val > 0.3 else "#2D6A4F", "thickness": 0.25},
+                "bgcolor": "#D5EDD5",
                 "borderwidth": 0,
                 "steps": [
-                    {"range": [0, 30],  "color": "#EBF5F2"},
-                    {"range": [30, 70], "color": "#FFF8E8"},
-                    {"range": [70, 100],"color": "#FDF0EC"},
+                    {"range": [0, 30],  "color": "#D8F0E4"},
+                    {"range": [30, 70], "color": "#FEF3C7"},
+                    {"range": [70, 100],"color": "#FEE2E2"},
                 ],
                 "threshold": {
-                    "line": {"color": "#1C1915", "width": 2},
+                    "line": {"color": "#1C3A2A", "width": 2},
                     "thickness": 0.75,
                     "value": 30,
                 },
@@ -527,7 +575,7 @@ with tab1:
             height=240,
             margin=dict(l=20, r=20, t=30, b=10),
             paper_bgcolor="rgba(0,0,0,0)",
-            font_family="Barlow",
+            font_family="DM Sans",
         )
         st.plotly_chart(fig_gauge, use_container_width=True)
 
@@ -549,15 +597,15 @@ with tab1:
         r=snap_vals + [snap_vals[0]],
         theta=snap_labels + [snap_labels[0]],
         fill="toself",
-        fillcolor="rgba(192,57,15,0.12)",
-        line=dict(color="#C0390F", width=2),
+        fillcolor="rgba(45,106,79,0.12)",
+        line=dict(color="#2D6A4F", width=2),
         name="Current",
     ))
     fig_radar.update_layout(
         polar=dict(
             bgcolor="rgba(0,0,0,0)",
-            radialaxis=dict(visible=True, showticklabels=False, gridcolor="#D0CBC2"),
-            angularaxis=dict(gridcolor="#D0CBC2", tickfont=dict(family="DM Mono", size=10, color="#7A736A")),
+            radialaxis=dict(visible=True, showticklabels=False, gridcolor="#C8D8C0"),
+            angularaxis=dict(gridcolor="#C8D8C0", tickfont=dict(family="JetBrains Mono", size=10, color="#6B8C6B")),
         ),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
@@ -588,19 +636,19 @@ with tab2:
     col_a, col_b = st.columns(2, gap="large")
 
     with col_a:
-        COLORS = ["#C0390F" if m == "Hybrid (IF+XGB)" else "#1A6B5A" if m == "XGBoost" else "#A09890" for m in perf_data["Model"]]
+        COLORS = ["#2D6A4F" if m == "Hybrid (IF+XGB)" else "#40916C" if m == "XGBoost" else "#B0C8B0" for m in perf_data["Model"]]
         fig_roc = go.Figure(go.Bar(
             x=perf_data["ROC-AUC"], y=perf_data["Model"],
             orientation="h",
             marker_color=COLORS,
             text=[f"{v:.2f}" for v in perf_data["ROC-AUC"]],
             textposition="outside",
-            textfont=dict(family="DM Mono", size=11, color="#1C1915"),
+            textfont=dict(family="JetBrains Mono", size=11, color="#1C3A2A"),
         ))
         fig_roc.update_layout(
-            title=dict(text="ROC-AUC Score", font=dict(family="Barlow Condensed", size=14, color="#1C1915"), x=0),
-            xaxis=dict(range=[0, 1.1], showgrid=True, gridcolor="#E0DDD8", tickfont=dict(family="DM Mono", size=10)),
-            yaxis=dict(tickfont=dict(family="Barlow", size=12, color="#1C1915")),
+            title=dict(text="ROC-AUC Score", font=dict(family="DM Sans", size=14, color="#1C3A2A"), x=0),
+            xaxis=dict(range=[0, 1.1], showgrid=True, gridcolor="#D4E8D4", tickfont=dict(family="JetBrains Mono", size=10)),
+            yaxis=dict(tickfont=dict(family="DM Sans", size=12, color="#1C3A2A")),
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
             height=320, margin=dict(l=10, r=60, t=40, b=20),
@@ -614,12 +662,12 @@ with tab2:
             marker_color=COLORS,
             text=[f"{v:.2f}" for v in perf_data["F1"]],
             textposition="outside",
-            textfont=dict(family="DM Mono", size=11, color="#1C1915"),
+            textfont=dict(family="JetBrains Mono", size=11, color="#1C3A2A"),
         ))
         fig_f1.update_layout(
-            title=dict(text="F1 Score", font=dict(family="Barlow Condensed", size=14, color="#1C1915"), x=0),
-            xaxis=dict(range=[0, 1.1], showgrid=True, gridcolor="#E0DDD8", tickfont=dict(family="DM Mono", size=10)),
-            yaxis=dict(tickfont=dict(family="Barlow", size=12, color="#1C1915")),
+            title=dict(text="F1 Score", font=dict(family="DM Sans", size=14, color="#1C3A2A"), x=0),
+            xaxis=dict(range=[0, 1.1], showgrid=True, gridcolor="#D4E8D4", tickfont=dict(family="JetBrains Mono", size=10)),
+            yaxis=dict(tickfont=dict(family="DM Sans", size=12, color="#1C3A2A")),
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
             height=320, margin=dict(l=10, r=60, t=40, b=20),
@@ -635,16 +683,16 @@ with tab2:
             x=[row["Recall"]], y=[row["Precision"]],
             mode="markers+text",
             marker=dict(size=16 if is_best else 11,
-                        color="#C0390F" if is_best else "#1A6B5A" if row["Model"]=="XGBoost" else "#A09890",
+                        color="#2D6A4F" if is_best else "#40916C" if row["Model"]=="XGBoost" else "#B0C8B0",
                         symbol="star" if is_best else "circle",
-                        line=dict(color="#1C1915", width=1)),
+                        line=dict(color="#1C3A2A", width=1)),
             text=[row["Model"]], textposition="top center",
-            textfont=dict(family="Barlow", size=10, color="#1C1915"),
+            textfont=dict(family="DM Sans", size=10, color="#1C3A2A"),
             name=row["Model"], showlegend=False,
         ))
     fig_pr.update_layout(
-        xaxis=dict(title="Recall", range=[0.4, 1.0], showgrid=True, gridcolor="#E0DDD8", tickfont=dict(family="DM Mono", size=10)),
-        yaxis=dict(title="Precision", range=[0.4, 1.0], showgrid=True, gridcolor="#E0DDD8", tickfont=dict(family="DM Mono", size=10)),
+        xaxis=dict(title="Recall", range=[0.4, 1.0], showgrid=True, gridcolor="#D4E8D4", tickfont=dict(family="JetBrains Mono", size=10)),
+        yaxis=dict(title="Precision", range=[0.4, 1.0], showgrid=True, gridcolor="#D4E8D4", tickfont=dict(family="JetBrains Mono", size=10)),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         height=340, margin=dict(l=40, r=20, t=20, b=40),
@@ -662,17 +710,17 @@ with tab2:
     fig_rob.add_trace(go.Scatter(
         x=robust_data["Noise Level"], y=robust_data["XGBoost F1"],
         mode="lines+markers", name="XGBoost",
-        line=dict(color="#1A6B5A", width=2), marker=dict(size=8),
+        line=dict(color="#40916C", width=2), marker=dict(size=8),
     ))
     fig_rob.add_trace(go.Scatter(
         x=robust_data["Noise Level"], y=robust_data["Hybrid F1"],
         mode="lines+markers", name="Hybrid",
-        line=dict(color="#C0390F", width=2, dash="dash"), marker=dict(size=8, symbol="diamond"),
+        line=dict(color="#2D6A4F", width=2, dash="dash"), marker=dict(size=8, symbol="diamond"),
     ))
     fig_rob.update_layout(
-        xaxis=dict(title="Noise Level (σ)", showgrid=True, gridcolor="#E0DDD8", tickfont=dict(family="DM Mono", size=10)),
-        yaxis=dict(title="F1 Score", showgrid=True, gridcolor="#E0DDD8", tickfont=dict(family="DM Mono", size=10)),
-        legend=dict(font=dict(family="Barlow", size=11)),
+        xaxis=dict(title="Noise Level (σ)", showgrid=True, gridcolor="#D4E8D4", tickfont=dict(family="JetBrains Mono", size=10)),
+        yaxis=dict(title="F1 Score", showgrid=True, gridcolor="#D4E8D4", tickfont=dict(family="JetBrains Mono", size=10)),
+        legend=dict(font=dict(family="DM Sans", size=11)),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         height=300, margin=dict(l=40, r=20, t=20, b=40),
@@ -700,17 +748,17 @@ with tab3:
         orientation="h",
         marker=dict(
             color=shap_static["Mean |SHAP|"],
-            colorscale=[[0, "#D0CBC2"], [0.5, "#8A6A3A"], [1, "#C0390F"]],
+            colorscale=[[0, "#C8D8C0"], [0.5, "#40916C"], [1, "#1B5E38"]],
             showscale=False,
         ),
         text=[f"{v:.3f}" for v in shap_static["Mean |SHAP|"]],
         textposition="outside",
-        textfont=dict(family="DM Mono", size=10, color="#1C1915"),
+        textfont=dict(family="JetBrains Mono", size=10, color="#1C3A2A"),
     ))
     fig_shap.update_layout(
-        title=dict(text="Top 10 Features by Mean |SHAP| Value (XGBoost)", font=dict(family="Barlow Condensed", size=14, color="#1C1915"), x=0),
-        xaxis=dict(showgrid=True, gridcolor="#E0DDD8", tickfont=dict(family="DM Mono", size=10)),
-        yaxis=dict(tickfont=dict(family="Barlow", size=12, color="#1C1915")),
+        title=dict(text="Top 10 Features by Mean |SHAP| Value (XGBoost)", font=dict(family="DM Sans", size=14, color="#1C3A2A"), x=0),
+        xaxis=dict(showgrid=True, gridcolor="#D4E8D4", tickfont=dict(family="JetBrains Mono", size=10)),
+        yaxis=dict(tickfont=dict(family="DM Sans", size=12, color="#1C3A2A")),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         height=380, margin=dict(l=10, r=80, t=50, b=20),
@@ -736,7 +784,7 @@ with tab3:
 
             feats_top = [feat_names[i] for i in idx_sorted]
             vals_top  = [shap_arr[i]   for i in idx_sorted]
-            colors_top = ["#C0390F" if v > 0 else "#1A6B5A" for v in vals_top]
+            colors_top = ["#B91C1C" if v > 0 else "#2D6A4F" for v in vals_top]
 
             fig_sample = go.Figure(go.Bar(
                 x=vals_top[::-1], y=feats_top[::-1],
@@ -744,12 +792,12 @@ with tab3:
                 marker_color=colors_top[::-1],
                 text=[f"{v:+.4f}" for v in vals_top[::-1]],
                 textposition="outside",
-                textfont=dict(family="DM Mono", size=10),
+                textfont=dict(family="JetBrains Mono", size=10),
             ))
             fig_sample.update_layout(
-                title=dict(text="SHAP Values for Current Input (red=pushes anomaly, green=pushes normal)", font=dict(family="Barlow Condensed", size=13, color="#1C1915"), x=0),
-                xaxis=dict(showgrid=True, gridcolor="#E0DDD8", tickfont=dict(family="DM Mono", size=10), zeroline=True, zerolinecolor="#1C1915", zerolinewidth=1),
-                yaxis=dict(tickfont=dict(family="Barlow", size=12, color="#1C1915")),
+                title=dict(text="SHAP Values for Current Input (red=pushes anomaly, green=pushes normal)", font=dict(family="DM Sans", size=13, color="#1C3A2A"), x=0),
+                xaxis=dict(showgrid=True, gridcolor="#D4E8D4", tickfont=dict(family="JetBrains Mono", size=10), zeroline=True, zerolinecolor="#1C3A2A", zerolinewidth=1),
+                yaxis=dict(tickfont=dict(family="DM Sans", size=12, color="#1C3A2A")),
                 paper_bgcolor="rgba(0,0,0,0)",
                 plot_bgcolor="rgba(0,0,0,0)",
                 height=380, margin=dict(l=10, r=80, t=60, b=20),
@@ -765,14 +813,14 @@ with tab3:
         demo_vals  = [0.142, -0.098, 0.071, 0.055, -0.039]
         fig_demo = go.Figure(go.Bar(
             x=demo_vals, y=demo_feats, orientation="h",
-            marker_color=["#C0390F" if v > 0 else "#1A6B5A" for v in demo_vals],
+            marker_color=["#B91C1C" if v > 0 else "#2D6A4F" for v in demo_vals],
             text=[f"{v:+.3f}" for v in demo_vals], textposition="outside",
-            textfont=dict(family="DM Mono", size=11),
+            textfont=dict(family="JetBrains Mono", size=11),
         ))
         fig_demo.update_layout(
-            title=dict(text="Demo SHAP Values (example sample)", font=dict(family="Barlow Condensed", size=13, color="#7A736A"), x=0),
-            xaxis=dict(showgrid=True, gridcolor="#E0DDD8", tickfont=dict(family="DM Mono", size=10), zeroline=True, zerolinecolor="#1C1915"),
-            yaxis=dict(tickfont=dict(family="Barlow", size=12)),
+            title=dict(text="Demo SHAP Values (example sample)", font=dict(family="DM Sans", size=13, color="#6B8C6B"), x=0),
+            xaxis=dict(showgrid=True, gridcolor="#D4E8D4", tickfont=dict(family="JetBrains Mono", size=10), zeroline=True, zerolinecolor="#1C3A2A"),
+            yaxis=dict(tickfont=dict(family="DM Sans", size=12)),
             paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
             height=260, margin=dict(l=10, r=60, t=50, b=20),
         )
