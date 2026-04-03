@@ -48,9 +48,38 @@ html, body, [class*="css"] {
     color: var(--text);
 }
 
-/* ── Hide Streamlit chrome ── */
-#MainMenu, footer, header { visibility: hidden; }
+/* ── Hide Streamlit chrome — keep header visible for sidebar toggle ── */
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
 .stDeployButton { display: none; }
+
+/* Hide only the elements inside the header we don't need */
+[data-testid="stToolbar"] { display: none; }
+[data-testid="stDecoration"] { display: none; }
+[data-testid="stStatusWidget"] { visibility: hidden; }
+
+/* Keep the header bar itself visible but reduce its height */
+header[data-testid="stHeader"] {
+    background: transparent !important;
+    height: 2.5rem !important;
+}
+
+/* Style the sidebar collapse arrow inside the header — green, always visible */
+[data-testid="collapsedControl"] {
+    background-color: #2D6A4F !important;
+    border-radius: 0 6px 6px 0 !important;
+    height: 2.5rem !important;
+    width: 2rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+[data-testid="collapsedControl"]:hover {
+    background-color: #40916C !important;
+}
+[data-testid="collapsedControl"] svg {
+    fill: #FAFAF7 !important;
+}
 
 /* ── App header ── */
 .app-header {
@@ -123,21 +152,7 @@ html, body, [class*="css"] {
     background: #52B788 !important;
 }
 
-/* ── Style Streamlit's own sidebar collapse/expand button ── */
-[data-testid="collapsedControl"] {
-    background-color: #2D6A4F !important;
-    width: 2rem !important;
-}
-[data-testid="collapsedControl"]:hover {
-    background-color: #40916C !important;
-}
-[data-testid="collapsedControl"] svg {
-    fill: #FAFAF7 !important;
-}
-/* The button Streamlit renders when sidebar IS expanded (the > arrow inside it) */
-button[data-testid="baseButton-headerNoPadding"] {
-    color: #FAFAF7 !important;
-}
+/* collapsedControl styles moved to the Hide chrome section above */
 
 /* Sidebar text — light on dark bg */
 [data-testid="stSidebar"] p,
