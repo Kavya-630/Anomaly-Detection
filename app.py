@@ -90,10 +90,54 @@ html, body, [class*="css"] {
     border-radius: 2px;
 }
 
-/* ── Sidebar ── */
+/* ── Sidebar shell ── */
 [data-testid="stSidebar"] {
     background: #1C3A2A !important;
     border-right: 2px solid #2D4A2D;
+    min-height: 100vh;
+}
+
+/* ── Scrollable content area ── */
+[data-testid="stSidebar"] > div:first-child {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: 100vh !important;
+    padding-bottom: 5rem !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #40916C #1C3A2A !important;
+}
+
+/* Webkit scrollbar styling */
+[data-testid="stSidebar"] > div:first-child::-webkit-scrollbar {
+    width: 5px !important;
+}
+[data-testid="stSidebar"] > div:first-child::-webkit-scrollbar-track {
+    background: #1C3A2A !important;
+    border-radius: 3px !important;
+}
+[data-testid="stSidebar"] > div:first-child::-webkit-scrollbar-thumb {
+    background: #40916C !important;
+    border-radius: 3px !important;
+}
+[data-testid="stSidebar"] > div:first-child::-webkit-scrollbar-thumb:hover {
+    background: #52B788 !important;
+}
+
+/* ── Always show the collapse/expand toggle arrow ── */
+[data-testid="collapsedControl"] {
+    display: flex !important;
+    visibility: visible !important;
+    background: #1C3A2A !important;
+    border-right: 2px solid #2D4A2D !important;
+    color: #D5EDD5 !important;
+    z-index: 999 !important;
+}
+[data-testid="collapsedControl"]:hover {
+    background: #2D6A4F !important;
+}
+[data-testid="collapsedControl"] svg {
+    fill: #D5EDD5 !important;
+    color: #D5EDD5 !important;
 }
 
 /* Sidebar text — light on dark bg */
