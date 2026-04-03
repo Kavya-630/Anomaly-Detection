@@ -4,7 +4,7 @@
 
 **A machine learning system for detecting thickness deviation anomalies in cold rolling mill processes**
 
-[![Live App](https://img.shields.io/badge/🚀%20Live%20App-Streamlit-FF4B4B?style=for-the-badge)](https://anomaly-detection-dxpm4mmqdfuvzcz939xdwk.streamlit.app/)
+[![App](https://img.shields.io/badge/🚀%20App-Streamlit-FF4B4B?style=for-the-badge)](https://anomaly-detection-dxpm4mmqdfuvzcz939xdwk.streamlit.app/)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![XGBoost](https://img.shields.io/badge/XGBoost-Hybrid%20Model-FF6600?style=for-the-badge)](https://xgboost.readthedocs.io)
 [![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
@@ -15,7 +15,7 @@
 
 ---
 
-##  Table of Contents
+## 📌 Table of Contents
 
 1. [Project Overview](#-project-overview)
 2. [Problem Statement](#-problem-statement)
@@ -32,15 +32,15 @@
 
 ---
 
-##  Project Overview
+## 🏭 Project Overview
 
 **RollGuard** is an end-to-end anomaly detection pipeline built for cold rolling mill quality control. It identifies coil passes where the thickness deviation exceeds acceptable limits — before defective steel reaches downstream processes.
 
-The system combines supervised learning (XGBoost), unsupervised learning (Isolation Forest), and a hybrid architecture to maximise recall of true anomalies while minimising costly misses. A live Streamlit dashboard allows operators to input process parameters and receive instant anomaly predictions with explainability.
+The system combines supervised learning (XGBoost), unsupervised learning (Isolation Forest), and a hybrid architecture to maximise recall of true anomalies while minimising costly misses. A Streamlit dashboard allows operators to input process parameters and receive anomaly predictions with explainability.
 
 ---
 
-##  Problem Statement
+## 🎯 Problem Statement
 
 In steel rolling mills, maintaining precise strip thickness is critical. When the output thickness deviates significantly from the target, it signals a process anomaly that can lead to:
 
@@ -52,7 +52,7 @@ In steel rolling mills, maintaining precise strip thickness is critical. When th
 
 ---
 
-##  Dataset Description
+## 📊 Dataset Description
 
 The dataset contains **60 columns** of rolling mill sensor and lab measurements per coil pass.
 
@@ -72,7 +72,7 @@ The dataset contains **60 columns** of rolling mill sensor and lab measurements 
 
 ---
 
-##  Methodology
+## 🔬 Methodology
 
 ### 1. Exploratory Data Analysis
 - Distribution analysis of `EXIT_THICK_DEVIATION_AVG` — right-skewed with a long anomaly tail
@@ -130,7 +130,7 @@ XGBoost optimal threshold: **0.138** | Hybrid optimal threshold: **0.011**
 
 ---
 
-##  Models & Results
+## 📈 Models & Results
 
 ### Performance Comparison
 
@@ -167,39 +167,40 @@ The hybrid model degrades more gracefully under noise, making it the recommended
 
 ---
 
-##  Streamlit App
+## 🖥️ Streamlit App
 
-**🔗 Live at: [https://anomaly-detection-dxpm4mmqdfuvzcz939xdwk.streamlit.app/](https://anomaly-detection-dxpm4mmqdfuvzcz939xdwk.streamlit.app/)**
+**🔗 [https://anomaly-detection-dxpm4mmqdfuvzcz939xdwk.streamlit.app/](https://anomaly-detection-dxpm4mmqdfuvzcz939xdwk.streamlit.app/)**
 
 The dashboard has four tabs:
 
-###  Prediction Tab
+### 🏭 Prediction Tab
 - Enter process parameters via the sidebar (grouped by category)
 - Select model: XGBoost / Isolation Forest / Hybrid
 - Get instant result with **anomaly gauge**, **risk level badge** (Low / Medium / High), and **feature radar chart**
 
-###  Model Performance Tab
+### 📈 Model Performance Tab
 - ROC-AUC and F1 bar charts for all 7 models
 - Precision vs Recall scatter plot
 - Robustness curve showing F1 degradation under noise
 
-###  SHAP Explainability Tab
+### 🔍 SHAP Explainability Tab
 - Global feature importance bar chart
-- Live per-sample SHAP waterfall for the current input — shows exactly which features pushed the prediction toward anomaly or normal
+- Per-sample SHAP waterfall for the current input — shows exactly which features pushed the prediction toward anomaly or normal
 
-###  About Tab
+### ℹ️ About Tab
 - Full methodology pipeline
 - Threshold values and cost matrix
 - Feature group descriptions
 
 ---
 
-##  Project Structure
+## 📁 Project Structure
 
 ```
 rollguard/
 │
 ├── app.py                          ← Streamlit dashboard (main entry point)
+├── save_models.py                  ← Export trained models from Colab notebook
 ├── requirements.txt                ← Python dependencies
 ├── README.md                       ← This file
 │
@@ -210,7 +211,8 @@ rollguard/
 │   ├── scaler.pkl                  ← StandardScaler for logistic regression
 │   └── model_columns.pkl           ← Ordered list of 55 training feature names
 │
-├── Anomaly_Detection.ipynb     ← Full research notebook (EDA → deployment)
+├── notebooks/
+│   └── Anomaly_Detection.ipynb     ← Full research notebook (EDA → deployment)
 │
 └── .streamlit/
     └── config.toml                 ← App theme (ash/warm palette)
@@ -218,7 +220,7 @@ rollguard/
 
 ---
 
-##  Setup & Installation
+## ⚙️ Setup & Installation
 
 ### Prerequisites
 - Python 3.10 or higher
@@ -228,7 +230,7 @@ rollguard/
 
 ```bash
 # 1. Clone the repository
-git clone [https://github.com/Kavya-630/Anomaly-Detection]
+git clone https://github.com/YOUR_USERNAME/rollguard.git
 cd rollguard
 
 # 2. (Optional) Create a virtual environment
@@ -251,7 +253,7 @@ The app will open at `http://localhost:8501`
 
 ---
 
-##  How to Export Models from Colab
+## 📦 How to Export Models from Colab
 
 After running all cells in your notebook, add a new cell and run:
 
@@ -272,7 +274,7 @@ Then download the `models/` folder from Colab's file browser and place it in you
 
 ---
 
-##  Deployment
+## 🚢 Deployment
 
 ### Deploy to Streamlit Cloud (Recommended)
 
@@ -303,7 +305,7 @@ font                = "sans serif"
 
 ---
 
-##  Key Findings
+## 💡 Key Findings
 
 1. **`EXIT_THICK_DEVIATION_AVG` is the correct anomaly target** — the `class` column in the original dataset represents steel grade (driven by AL and SI chemistry), not process quality.
 
@@ -317,7 +319,7 @@ font                = "sans serif"
 
 ---
 
-##  Tech Stack
+## 🛠️ Tech Stack
 
 | Tool | Purpose |
 |------|---------|
@@ -332,7 +334,7 @@ font                = "sans serif"
 
 ---
 
-##  Author
+## 👤 Author
 
 Built as part of an industrial ML project on rolling mill quality control.
 
@@ -340,5 +342,5 @@ Built as part of an industrial ML project on rolling mill quality control.
 
 <div align="center">
 <b>⚙️ RollGuard</b> · Rolling Mill Anomaly Detection<br>
-<a href="https://anomaly-detection-dxpm4mmqdfuvzcz939xdwk.streamlit.app/">Live App</a>
+<a href="https://anomaly-detection-dxpm4mmqdfuvzcz939xdwk.streamlit.app/">Streamlit App</a>
 </div>
