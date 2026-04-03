@@ -228,7 +228,7 @@ rollguard/
 
 ```bash
 # 1. Clone the repository
-git clone [https://github.com/YOUR_USERNAME/rollguard.git](https://github.com/Kavya-630/Anomaly-Detection)
+git clone [https://github.com/Kavya-630/Anomaly-Detection]
 cd rollguard
 
 # 2. (Optional) Create a virtual environment
