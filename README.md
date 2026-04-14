@@ -134,15 +134,15 @@ XGBoost optimal threshold: **0.138** | Hybrid optimal threshold: **0.011**
 
 ### Performance Comparison
 
-| Model | Type | ROC-AUC | Precision | Recall | F1 Score |
-|-------|------|---------|-----------|--------|----------|
-| Logistic Regression | Supervised | 0.81 | 0.62 | 0.58 | 0.60 |
-| Random Forest | Supervised | 0.93 | 0.78 | 0.74 | 0.76 |
-| **XGBoost** | Supervised | **0.96** | **0.84** | **0.79** | **0.81** |
-| Isolation Forest | Unsupervised | 0.72 | 0.55 | 0.61 | 0.58 |
-| One-Class SVM | Unsupervised | 0.68 | 0.50 | 0.55 | 0.52 |
-| LOF | Unsupervised | 0.70 | 0.52 | 0.58 | 0.55 |
-| **Hybrid (IF + XGB)** | Hybrid | **0.97** | **0.86** | **0.82** | **0.84** |
+| Model | Type | ROC-AUC | Precision | Recall | F1 Score | Accuracy |
+|-------|------|---------|-----------|--------|----------|----------|
+| Logistic Regression | Supervised | 0.9776 | 0.15 | 0.98 | 0.27 | 0.91 |
+| Random Forest | Supervised | 0.9907 | 0.84 | 0.55 | 0.66 | 0.99 |
+| XGBoost | Supervised | 0.9888 | 0.26 | 0.95 | 0.41 | 0.95 |
+| Isolation Forest | Unsupervised | 0.9365 | 0.14 | 0.40 | 0.20 | 0.95 |
+| One-Class SVM | Unsupervised | 0.6569 | 0.04 | 0.12 | 0.06 | 0.94 |
+| LOF | Unsupervised | 0.5721 | 0.05 | 0.14 | 0.07 | 0.94 |
+| **Hybrid (IF + XGB)** | Hybrid | **0.9899** | **0.74** | **0.48** | **0.58** | — |
 
 ### Robustness to Sensor Noise
 
